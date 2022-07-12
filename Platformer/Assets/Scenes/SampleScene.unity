@@ -179,7 +179,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 61880507}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 09958480ed960d54a9bd546ce6a43fb9, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -690,7 +690,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 680631912}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 09958480ed960d54a9bd546ce6a43fb9, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -872,7 +872,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 998474239}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 09958480ed960d54a9bd546ce6a43fb9, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1082,8 +1082,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c755e636cf9e47442891bcbc38a3714d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _speed: 4
   _jumpForce: 15
+  maximumNearDistance: 0.99
 --- !u!70 &1068471908
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1156,7 +1157,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1075191380}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 09958480ed960d54a9bd546ce6a43fb9, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1281,7 +1282,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1122079501}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 09958480ed960d54a9bd546ce6a43fb9, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
