@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
+    private Health _health;  
 
     private float _movement;
     private bool _isJump;
@@ -17,34 +20,37 @@ public class PlayerController : MonoBehaviour
     private bool _isCanDoubleJump;
     private bool _readyToNextJump = true;
 
-    //private RaycastHit2D hit2D;
 
     void Start()
-    {
+    {   
+        _health = GetComponent<Health>();
         _rigidbody = GetComponent<Rigidbody2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();      
     }
 
     private void Update()
     {
-        _movement = Input.GetAxis("Horizontal");
+            _movement = Input.GetAxis("Horizontal");
 
-        if (Input.GetKeyDown(KeyCode.Space) && _readyToNextJump)
-           _isJump = true;
+            if (Input.GetKeyDown(KeyCode.Space) && _readyToNextJump)
+                _isJump = true;
 
-        if (_movement < 0)
-            _spriteRenderer.flipX = true;
-        else if (_movement > 0)
-            _spriteRenderer.flipX = false;   
+            if (_movement < 0 && _health.IsDeath == false)
+                _spriteRenderer.flipX = true;
+            else if (_movement > 0 && _health.IsDeath == false)
+                _spriteRenderer.flipX = false; 
     }
 
     private void FixedUpdate()
     {
-        Move();
-        FindOutGround();
+        if (_health.IsDeath == false)
+        {
+            Move();
+            FindOutGround();
 
-        if (_isJump)
-            Jump();
+            if (_isJump)
+                Jump();
+        }     
     }
 
     private void Move()
@@ -84,5 +90,28 @@ public class PlayerController : MonoBehaviour
         {
             _isGrounded = false;
         }         
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Sequence _sequence = DOTween.Sequence();
+
+        var initialColor = _spriteRenderer.color;
+
+        if (collision.collider.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            foreach (ContactPoint2D point in collision.contacts)
+            {
+                if (point.normal.y < 0 || point.normal.x > 0.1f || point.normal.x < -0.1f)
+                {
+                    _health.TakeDamage();
+
+                    _sequence.Append(DOTweenModuleSprite.DOColor(_spriteRenderer, Color.clear, 0.25f).SetLoops(2, LoopType.Yoyo));
+                    _sequence.Append(_spriteRenderer.DOColor(initialColor, 1));
+
+                    break;
+                }
+            }
+        }
     }
 }
