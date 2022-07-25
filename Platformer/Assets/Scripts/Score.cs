@@ -2,14 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Score : MonoBehaviour
 {
-    [SerializeField] private Text _scoreText;
+    [SerializeField] private TMP_Text _scoreText;
     private int _score = 0;
 
     void Start()
     {
-        _scoreText.text = _score.ToString() + "POINTS";
+        GameEvents.Current.OnPickupCoin += AddPoint;
+
+        _scoreText.text = _score.ToString() + " POINTS";
+    }
+
+    public void AddPoint()
+    {
+        _score++;
+        _scoreText.text = _score.ToString() + " POINTS";
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Current.OnPickupCoin -= AddPoint;
     }
 }

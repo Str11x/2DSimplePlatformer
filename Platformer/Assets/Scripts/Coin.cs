@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Coin : MonoBehaviour
-{
-    private void OnCollisionEnter2D(Collision2D collision)
+public class Coin : MonoBehaviour, IInteractable    
+{ 
+    public void Interact()
     {
-        if (collision.collider.TryGetComponent<PlayerController>(out PlayerController player))
-        {
-            Destroy(gameObject);
-        }           
+        Destroy(this.gameObject);
+        GameEvents.Current.PickupCoin();
     }
 }

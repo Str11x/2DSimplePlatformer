@@ -92,26 +92,28 @@ public class PlayerController : MonoBehaviour
         }         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Sequence _sequence = DOTween.Sequence();
+    ////private void OnCollisionEnter2D(Collision2D collision)
+    ////{
 
-        var initialColor = _spriteRenderer.color;
 
-        if (collision.collider.TryGetComponent<Enemy>(out Enemy enemy))
-        {
-            foreach (ContactPoint2D point in collision.contacts)
-            {
-                if (point.normal.y < 0 || point.normal.x > 0.1f || point.normal.x < -0.1f)
-                {
-                    _health.TakeDamage();
+    ////    //Sequence _sequence = DOTween.Sequence();
 
-                    _sequence.Append(DOTweenModuleSprite.DOColor(_spriteRenderer, Color.clear, 0.25f).SetLoops(2, LoopType.Yoyo));
-                    _sequence.Append(_spriteRenderer.DOColor(initialColor, 1));
+    ////    //var initialColor = _spriteRenderer.color;
 
-                    break;
-                }
-            }
-        }
-    }
+    ////    //if (collision.collider.TryGetComponent<Enemy>(out Enemy enemy))
+    ////    //{
+    ////    //    foreach (ContactPoint2D point in collision.contacts)
+    ////    //    {
+    ////    //        if (point.normal.y < 0 || point.normal.x > 0.1f || point.normal.x < -0.1f)
+    ////    //        {
+    ////    //            _health.TakeDamage();
+
+    ////    //            _sequence.Append(DOTweenModuleSprite.DOColor(_spriteRenderer, Color.clear, 0.25f).SetLoops(2, LoopType.Yoyo));
+    ////    //            _sequence.Append(_spriteRenderer.DOColor(initialColor, 1));
+
+    ////    //            break;
+    ////    //        }
+    ////    //    }
+    ////    //}
+    ////}
 }

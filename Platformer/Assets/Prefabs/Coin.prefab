@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6555230291046518010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.2589102, y: -1.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -100,7 +100,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 7d9ce3bc706900c4bb8110ee010e1064, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -135,3 +135,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05e2f970b941e547b079bc9b902856a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pickupEffect: {fileID: 1017929985654814027, guid: 35b116c6cf6caf743bbef8ef1dbd6ef5, type: 3}
+  _pickupSound: {fileID: -1731620145973767622, guid: be118edd429d81346831c4cfe8e2907e, type: 3}
