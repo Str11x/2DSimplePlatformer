@@ -2,18 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class PlayerAnimations : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
 
     private int _speed = Animator.StringToHash("Speed");
     private int _jump = Animator.StringToHash("IsJump");
+    private int _healthAnimation = Animator.StringToHash("Health");
 
     private float _startMovement = 3;
     private int _stopMovement = 0;
 
-    void Update()
+    private void Start()
+    {
+        GameEvents.Current.OnPlayerDestroy += Death;
+    }
+
+    private void Update()
     {
         HorizontalMovement();
         Jump();
@@ -41,5 +46,10 @@ public class PlayerAnimations : MonoBehaviour
         {
             _animator.SetBool(_jump, false);
         }
+    }
+
+    private void Death()
+    {
+        _animator.SetInteger(_healthAnimation, 0);
     }
 }

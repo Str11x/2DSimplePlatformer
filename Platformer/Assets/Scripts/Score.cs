@@ -7,16 +7,17 @@ using TMPro;
 public class Score : MonoBehaviour
 {
     [SerializeField] private TMP_Text _scoreText;
+
     private int _score = 0;
 
-    void Start()
+    private void Start()
     {
         GameEvents.Current.OnPickupCoin += AddPoint;
 
         _scoreText.text = _score.ToString() + " POINTS";
     }
 
-    public void AddPoint()
+    private void AddPoint()
     {
         _score++;
         _scoreText.text = _score.ToString() + " POINTS";

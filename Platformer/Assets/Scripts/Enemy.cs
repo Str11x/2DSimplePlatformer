@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Enemy : MonoBehaviour
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Transform))]
+public class Enemy : MonoBehaviour, IInteractable
 {   
     [SerializeField] private int _speed;
 
     private Transform _target;
     private Collider2D _collider;
     private SpriteRenderer _spriteRenderer;
+
+    private int _timeToDestroy = 2;
+    private float _timeToBlinkRenderer = 0.25f;
 
     private void Start()
     {
@@ -35,11 +41,18 @@ public class Enemy : MonoBehaviour
                 if (point.normal.y < 0)
                 {
                     _collider.enabled = false;
-                    Destroy(gameObject, 2);
-                    
-                    DOTweenModuleSprite.DOBlendableColor(_spriteRenderer, Color.clear, 0.25f).SetLoops(-1, LoopType.Yoyo);
+                    GameEvents.Current.TakeDamageFromPlayer();
+
+                    DOTweenModuleSprite.DOBlendableColor(_spriteRenderer, Color.clear, _timeToBlinkRenderer).SetLoops(1, LoopType.Yoyo);
+
+                    Destroy(gameObject, _timeToDestroy);
                 }
             }        
         }
+    }
+   
+    public void Interact()
+    {
+        GameEvents.Current.TakeDamageFromEnemy();
     }
 }

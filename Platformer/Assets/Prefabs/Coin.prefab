@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6555230291046518008}
   - component: {fileID: 6555230291046518011}
   - component: {fileID: 6555230291046517895}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,5 +135,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05e2f970b941e547b079bc9b902856a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickupEffect: {fileID: 1017929985654814027, guid: 35b116c6cf6caf743bbef8ef1dbd6ef5, type: 3}
-  _pickupSound: {fileID: -1731620145973767622, guid: be118edd429d81346831c4cfe8e2907e, type: 3}

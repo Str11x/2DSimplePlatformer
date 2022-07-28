@@ -6,51 +6,50 @@ using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private Animator _animator;
-    [SerializeField] private Effects _deathEffect;
     [SerializeField] private Heart _heart;
     [SerializeField] private Transform _heartPoints;
 
     private List<Heart> _rendererHearts = new List<Heart>();
 
-    private int _healthAnimation = Animator.StringToHash("Health");
     private int _health = 3;
     private int _spawnEnvironmentLayer = 6;
-    private int _timeToDeathDestroy = 1;
+    private int _PlayerLayer = 7;
+    private int _UnAttackableLayer = 10;
     private int _timeToLevelRestart = 3;
-    private int _numberOfSceneRestart = 0;   
+    private int _numberOfSceneRestart = 0;
+    private bool _isUnattackable = true;
 
     public bool IsDeath { get; private set; } = false;
 
     private void Start()
     {
+        GameEvents.Current.OnTakeDamageFromEnemy += TakeDamage;
+
         for (int i = 0; i < _health; i++)
         {
             _rendererHearts.Add(Instantiate(_heart, _heartPoints.GetChild(i).transform.position, Quaternion.identity));
         }
     }
 
-    public void TakeDamage()
+    private void TakeDamage()
     {
         if(_health > 1)
         {
             _health--;
+            _isUnattackable = true;
             StartCoroutine(MakeUnattackable());
 
             Destroy(_rendererHearts[_rendererHearts.Count - 1].gameObject);
             _rendererHearts.RemoveAt(_rendererHearts.Count - 1);
         }
         else
-        {
-            _animator.SetInteger(_healthAnimation, 0);
+        {  
             IsDeath = true;
             gameObject.layer = _spawnEnvironmentLayer;
 
-            Destroy(_rendererHearts[_rendererHearts.Count - 1].gameObject);
-            _rendererHearts.RemoveAt(_rendererHearts.Count - 1);
+            GameEvents.Current.DestroyPlayer();
 
-            var deathEffect = Instantiate(_deathEffect, transform.position, Quaternion.identity);
-            Destroy(deathEffect.gameObject, _timeToDeathDestroy);
+            Destroy(_rendererHearts[_rendererHearts.Count - 1].gameObject);
 
             Invoke("Restart", _timeToLevelRestart);
         }
@@ -63,14 +62,20 @@ public class Health : MonoBehaviour
 
     private IEnumerator MakeUnattackable()
     {
-        while (true)
+        while (_isUnattackable)
         {
-            gameObject.layer = _spawnEnvironmentLayer;
+            gameObject.layer = _UnAttackableLayer;
 
             yield return new WaitForSeconds(3);
 
-            gameObject.layer = 7;
-            break;
+            gameObject.layer = _PlayerLayer;
+
+            _isUnattackable = false;
         }
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Current.OnTakeDamageFromEnemy -= TakeDamage;
     }
 }

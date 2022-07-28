@@ -37,6 +37,7 @@ public class FlyGround : MonoBehaviour
 
             Vector3 initialPosition = _islands[i].transform.position;
 
+
             for (int vectorIndex = 0; vectorIndex < _numberOfMovePoint; vectorIndex++)
             {
                 if (vectorIndex == _numberOfMovePoint - 1)
@@ -53,6 +54,5 @@ public class FlyGround : MonoBehaviour
             _flyAnimation = _islands[i].DOPath(_pathPoints, _animationDuration, PathType.CatmullRom).SetAutoKill(false).SetOptions(true);
             _flyAnimation.SetEase(Ease.Linear).SetLoops(-1);
         }
-
     }
 }
