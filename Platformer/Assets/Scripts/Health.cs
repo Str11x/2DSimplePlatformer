@@ -10,6 +10,7 @@ public class Health : MonoBehaviour
     [SerializeField] private Transform _heartPoints;
 
     private List<Heart> _rendererHearts = new List<Heart>();
+    private WaitForSeconds _unattackableTime = new WaitForSeconds(3);
 
     private int _health = 3;
     private int _spawnEnvironmentLayer = 6;
@@ -42,7 +43,7 @@ public class Health : MonoBehaviour
         {
             _health--;
             _isUnattackable = true;
-            StartCoroutine(MakeUnattackable());
+            StartCoroutine(MakeUnattackableForWhile());
 
             Destroy(_rendererHearts[_rendererHearts.Count - 1].gameObject);
             _rendererHearts.RemoveAt(_rendererHearts.Count - 1);
@@ -65,13 +66,13 @@ public class Health : MonoBehaviour
         SceneManager.LoadScene(_numberOfSceneRestart);
     }
 
-    private IEnumerator MakeUnattackable()
+    private IEnumerator MakeUnattackableForWhile()
     {
         while (_isUnattackable)
         {
             gameObject.layer = _UnAttackableLayer;
 
-            yield return new WaitForSeconds(3);
+            yield return _unattackableTime;
 
             gameObject.layer = _PlayerLayer;
 

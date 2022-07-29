@@ -21,10 +21,6 @@ public class Enemy : MonoBehaviour, IInteractable
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<Collider2D>();
-
-        var player = FindObjectOfType<PlayerController>();
-
-        _target = player.transform;
     }
 
     private void FixedUpdate()
@@ -54,5 +50,10 @@ public class Enemy : MonoBehaviour, IInteractable
     public void Interact()
     {
         GameEvents.Current.TakeDamageFromEnemy();
+    }
+
+    public void SetPlayerPosition(PlayerController player)
+    {
+        _target = player.transform;
     }
 }

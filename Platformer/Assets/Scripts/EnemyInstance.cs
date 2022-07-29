@@ -7,6 +7,7 @@ public class EnemyInstance : MonoBehaviour
 {
     [SerializeField] private Transform _spawnPoints;
     [SerializeField] private Enemy _template;
+    [SerializeField] private PlayerController _player;
 
     private Transform[] _points;
     private int _currentPoint;
@@ -42,9 +43,15 @@ public class EnemyInstance : MonoBehaviour
 
             GameEvents.Current.InstanceEnemy();
 
-            Instantiate(_template, _points[_currentPoint].transform.position, Quaternion.identity);
+            var enemy = Instantiate(_template, _points[_currentPoint].transform.position, Quaternion.identity);
+            ReportPlayerPosition(enemy);
 
             yield return _spawnerPauseTime;
         }
+    }
+
+    private void ReportPlayerPosition(Enemy enemy)
+    {
+        enemy.SetPlayerPosition(_player);
     }
 }

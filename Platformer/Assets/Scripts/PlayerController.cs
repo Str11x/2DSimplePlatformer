@@ -7,6 +7,7 @@ using DG.Tweening;
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Interactor))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _speed = 10;
@@ -27,10 +28,13 @@ public class PlayerController : MonoBehaviour
     private float _blinkBackTimeDuration = 0.25f;
     private int _blinkLoopsAmount = 12;
 
+    public Interactor Interactor { get; private set; }
+
     private void Start()
     {
         GameEvents.Current.OnTakeDamageFromEnemy += BlinkFromDamage;
 
+        Interactor = GetComponent<Interactor>();
         _health = GetComponent<Health>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();      

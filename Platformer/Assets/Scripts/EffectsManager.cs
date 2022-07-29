@@ -17,8 +17,8 @@ public class EffectsManager : MonoBehaviour
     [SerializeField] private ParticleSystem _instance;
     [SerializeField] private ParticleSystem _pickUpCoin;
 
-    private Interactor _coinInteractor;
     private int _lifetimeSpawnSign = 5;
+    private Interactor _coinInteractor;
 
     private void Start()
     {
@@ -28,8 +28,8 @@ public class EffectsManager : MonoBehaviour
         GameEvents.Current.OnCoinInstance += InstanceCoin;
         GameEvents.Current.OnPickupCoin += PickUpCoin;
         
-        _coinInteractor = _player.GetComponent<Interactor>();
         _spawnFlame.transform.SetParent(_sign.transform);
+        _coinInteractor = _player.Interactor;
     }
 
     private void OnDisable()
@@ -61,7 +61,7 @@ public class EffectsManager : MonoBehaviour
         _spawnFlame.transform.SetParent(_sign.transform);
         _spawnFlame.Play();
 
-        Invoke("DisableSpawnSign", _lifetimeSpawnSign);
+        Invoke(nameof(DisableSpawnSign), _lifetimeSpawnSign);
     }
 
     private void InstanceEnemy()
