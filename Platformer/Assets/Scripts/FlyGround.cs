@@ -14,7 +14,7 @@ public class FlyGround : MonoBehaviour
     private Transform [] _islands = new Transform[0];
     private Tween _flyAnimation;
 
-    void Start()
+    private void Start()
     {
         _islands = new Transform[transform.childCount];
 

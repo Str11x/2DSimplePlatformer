@@ -17,14 +17,14 @@ public class Score : MonoBehaviour
         _scoreText.text = _score.ToString() + " POINTS";
     }
 
+    private void OnDisable()
+    {
+        GameEvents.Current.OnPickupCoin -= AddPoint;
+    }
+
     private void AddPoint()
     {
         _score++;
         _scoreText.text = _score.ToString() + " POINTS";
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.Current.OnPickupCoin -= AddPoint;
     }
 }

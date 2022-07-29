@@ -7,7 +7,7 @@ public class Coin : MonoBehaviour, IInteractable
 { 
     public void Interact()
     {
-        Destroy(this.gameObject);
         GameEvents.Current.PickupCoin();
+        Destroy(this.gameObject);    
     }
 }

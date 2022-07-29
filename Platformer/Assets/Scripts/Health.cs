@@ -31,6 +31,11 @@ public class Health : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        GameEvents.Current.OnTakeDamageFromEnemy -= TakeDamage;
+    }
+
     private void TakeDamage()
     {
         if(_health > 1)
@@ -51,7 +56,7 @@ public class Health : MonoBehaviour
 
             Destroy(_rendererHearts[_rendererHearts.Count - 1].gameObject);
 
-            Invoke("Restart", _timeToLevelRestart);
+            Invoke(nameof(Restart), _timeToLevelRestart);
         }
     }
 
@@ -72,10 +77,5 @@ public class Health : MonoBehaviour
 
             _isUnattackable = false;
         }
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.Current.OnTakeDamageFromEnemy -= TakeDamage;
     }
 }

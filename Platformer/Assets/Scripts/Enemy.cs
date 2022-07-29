@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour, IInteractable
             }        
         }
     }
-   
+
     public void Interact()
     {
         GameEvents.Current.TakeDamageFromEnemy();

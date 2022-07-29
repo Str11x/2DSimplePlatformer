@@ -22,14 +22,13 @@ public class EffectsManager : MonoBehaviour
 
     private void Start()
     {
-        _coinInteractor = _player.GetComponent<Interactor>();
-
         GameEvents.Current.OnPlayerDestroy += Death;
         GameEvents.Current.OnEnemyEffectsInstance += InstanceEnemyEffects;
         GameEvents.Current.OnEnemyInstance += InstanceEnemy;
         GameEvents.Current.OnCoinInstance += InstanceCoin;
         GameEvents.Current.OnPickupCoin += PickUpCoin;
-
+        
+        _coinInteractor = _player.GetComponent<Interactor>();
         _spawnFlame.transform.SetParent(_sign.transform);
     }
 

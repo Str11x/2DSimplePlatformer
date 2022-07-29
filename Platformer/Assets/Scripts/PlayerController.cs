@@ -36,6 +36,11 @@ public class PlayerController : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();      
     }
 
+    private void OnDisable()
+    {
+        GameEvents.Current.OnTakeDamageFromEnemy -= BlinkFromDamage;
+    }
+
     private void Update()
     {
          _movement = Input.GetAxis("Horizontal");
@@ -110,10 +115,5 @@ public class PlayerController : MonoBehaviour
             _sequence.Append(DOTweenModuleSprite.DOColor(_spriteRenderer, Color.clear, _blinkDuration).SetLoops(_blinkLoopsAmount, LoopType.Yoyo));
             _sequence.Append(_spriteRenderer.DOColor(initialColor, _blinkBackTimeDuration));
         }    
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.Current.OnTakeDamageFromEnemy -= BlinkFromDamage;
     }
 }

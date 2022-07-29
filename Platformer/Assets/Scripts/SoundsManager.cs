@@ -20,6 +20,17 @@ public class SoundsManager : MonoBehaviour
         GameEvents.Current.OnTakeDamageFromEnemy += HitFromEnemy;
         GameEvents.Current.OnPlayerDestroy += DestroyPlayer;
     }
+
+    private void OnDisable()
+    {
+        GameEvents.Current.OnPickupCoin -= PickupCoin;
+        GameEvents.Current.OnEnemyEffectsInstance -= InstanceSpawn;
+        GameEvents.Current.OnEnemyInstance -= InstanceEnemy;
+        GameEvents.Current.OnTakeDamageFromPlayer -= HitFromPlayer;
+        GameEvents.Current.OnTakeDamageFromEnemy -= HitFromEnemy;
+        GameEvents.Current.OnPlayerDestroy -= DestroyPlayer;
+    }
+
     private void PickupCoin()
     {
         _pickupCoin.Play();
@@ -48,15 +59,5 @@ public class SoundsManager : MonoBehaviour
     private void DestroyPlayer()
     {
         _death.Play();
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.Current.OnPickupCoin -= PickupCoin;
-        GameEvents.Current.OnEnemyEffectsInstance -= InstanceSpawn;
-        GameEvents.Current.OnEnemyInstance -= InstanceEnemy;
-        GameEvents.Current.OnTakeDamageFromPlayer -= HitFromPlayer;
-        GameEvents.Current.OnTakeDamageFromEnemy -= HitFromEnemy;
-        GameEvents.Current.OnPlayerDestroy -= DestroyPlayer;
     }
 }
