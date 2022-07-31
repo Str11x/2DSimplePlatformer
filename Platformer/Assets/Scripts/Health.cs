@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Events;
+using System;
 
+[RequireComponent(typeof(PlayerController))]
 public class Health : MonoBehaviour
 {
     [SerializeField] private Heart _heart;
@@ -11,6 +12,7 @@ public class Health : MonoBehaviour
 
     private List<Heart> _rendererHearts = new List<Heart>();
     private WaitForSeconds _unattackableTime = new WaitForSeconds(3);
+    private PlayerController _player;
 
     private int _health = 3;
     private int _spawnEnvironmentLayer = 6;
@@ -20,11 +22,15 @@ public class Health : MonoBehaviour
     private int _numberOfSceneRestart = 0;
     private bool _isUnattackable = true;
 
+    public event Action PlayerKilled;
+
     public bool IsDeath { get; private set; } = false;
 
     private void Start()
     {
-        GameEvents.Current.OnTakeDamageFromEnemy += TakeDamage;
+        _player = GetComponent<PlayerController>();
+
+        _player.TookDamageFromEnemy += TakeDamage;
 
         for (int i = 0; i < _health; i++)
         {
@@ -34,7 +40,7 @@ public class Health : MonoBehaviour
 
     private void OnDisable()
     {
-        GameEvents.Current.OnTakeDamageFromEnemy -= TakeDamage;
+        _player.TookDamageFromEnemy -= TakeDamage;
     }
 
     private void TakeDamage()
@@ -53,7 +59,7 @@ public class Health : MonoBehaviour
             IsDeath = true;
             gameObject.layer = _spawnEnvironmentLayer;
 
-            GameEvents.Current.DestroyPlayer();
+            PlayerKilled?.Invoke();
 
             Destroy(_rendererHearts[_rendererHearts.Count - 1].gameObject);
 

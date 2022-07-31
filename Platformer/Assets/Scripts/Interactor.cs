@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collision2D))]
+[RequireComponent(typeof(PlayerController))]
 public class Interactor : MonoBehaviour
 {
+    private Wallet _wallet;
     public Transform CurrentTransform { get; private set; }
     public bool IsCauseDamage { get; private set; }
+
+    private void Start()
+    {
+        _wallet = GetComponent<Wallet>();
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -15,6 +22,7 @@ public class Interactor : MonoBehaviour
         if (collision.collider.TryGetComponent<IInteractable>(out IInteractable interactable))
         {
             CurrentTransform = collision.collider.transform;
+
             CalculateDropDitance(collision);
             SelectInteract(interactable);
         }
@@ -23,9 +31,14 @@ public class Interactor : MonoBehaviour
     private void SelectInteract(IInteractable interactable)
     {
         if (interactable is Coin coin)
-            coin.Interact();       
-        else if (interactable is Enemy enemy && IsCauseDamage)           
-            enemy.Interact();          
+        {
+            _wallet.AddCoin();
+            coin.Interact();
+        }                  
+        else if (interactable is Enemy enemy && IsCauseDamage)
+        {
+            enemy.Interact();
+        }                                    
     }
 
     private void CalculateDropDitance(Collision2D collision)

@@ -5,28 +5,34 @@ using UnityEngine;
 public class EffectsManager : MonoBehaviour
 {
     [SerializeField] private PlayerController _player;
-    [SerializeField] private ParticleSystem _death;
-    [SerializeField] private EnemyInstance _enemyInstance;
-    [SerializeField] private ParticleSystem _instanceExplosion;
+    [SerializeField] private Score _scoreCount;
     [SerializeField] private SpawnSign _sign;
+    [SerializeField] private EnemySpawner _enemyInstance;
     [SerializeField] private SpriteRenderer _signRenderer;
+    [SerializeField] private CoinSpawner _coinInstance;
+
+    [SerializeField] private ParticleSystem _death;   
+    [SerializeField] private ParticleSystem _instanceExplosion;     
     [SerializeField] private ParticleSystem _spawnFlame;
     [SerializeField] private ParticleSystem _electricity;
-    [SerializeField] private ParticleSystem _shine;
-    [SerializeField] private CoinInstance _coinInstance;
+    [SerializeField] private ParticleSystem _shine; 
     [SerializeField] private ParticleSystem _instance;
     [SerializeField] private ParticleSystem _pickUpCoin;
 
-    private int _lifetimeSpawnSign = 5;
+    private Health _health;  
     private Interactor _coinInteractor;
+
+    private int _lifetimeSpawnSign = 5;
 
     private void Start()
     {
-        GameEvents.Current.OnPlayerDestroy += Death;
-        GameEvents.Current.OnEnemyEffectsInstance += InstanceEnemyEffects;
-        GameEvents.Current.OnEnemyInstance += InstanceEnemy;
-        GameEvents.Current.OnCoinInstance += InstanceCoin;
-        GameEvents.Current.OnPickupCoin += PickUpCoin;
+        _health = _player.GetComponent<Health>();
+
+        _health.PlayerKilled += Death;
+        _scoreCount.CoinPickuped += PickUpCoin;
+        _enemyInstance.SpawnEnemyEffects += SpawnEnemyEffects;
+        _enemyInstance.SpawnEnemy += SpawnEnemy;
+        _coinInstance.CreatedCoin += SpawnCoin;
         
         _spawnFlame.transform.SetParent(_sign.transform);
         _coinInteractor = _player.Interactor;
@@ -34,11 +40,11 @@ public class EffectsManager : MonoBehaviour
 
     private void OnDisable()
     {
-        GameEvents.Current.OnPlayerDestroy -= Death;
-        GameEvents.Current.OnPlayerDestroy -= InstanceEnemyEffects;
-        GameEvents.Current.OnEnemyInstance -= InstanceEnemy;
-        GameEvents.Current.OnCoinInstance -= InstanceCoin;
-        GameEvents.Current.OnPickupCoin -= PickUpCoin;
+        _health.PlayerKilled -= Death;
+        _scoreCount.CoinPickuped -= PickUpCoin;
+        _enemyInstance.SpawnEnemyEffects -= SpawnEnemyEffects;
+        _enemyInstance.SpawnEnemy += SpawnEnemy;
+        _coinInstance.CreatedCoin -= SpawnCoin;
     }
 
     private void Death()
@@ -47,7 +53,7 @@ public class EffectsManager : MonoBehaviour
         _death.Play();
     }
 
-    private void InstanceEnemyEffects()
+    private void SpawnEnemyEffects()
     {
         _instanceExplosion.transform.position = _enemyInstance.CurrentPosition;
         _instanceExplosion.Play();
@@ -64,7 +70,7 @@ public class EffectsManager : MonoBehaviour
         Invoke(nameof(DisableSpawnSign), _lifetimeSpawnSign);
     }
 
-    private void InstanceEnemy()
+    private void SpawnEnemy()
     {
         _shine.transform.position = _enemyInstance.CurrentPosition;
         _shine.Play();
@@ -77,7 +83,7 @@ public class EffectsManager : MonoBehaviour
         _electricity.Stop();
     }
 
-    private void InstanceCoin()
+    private void SpawnCoin()
     {
         _instance.transform.position = _coinInstance.CurrentPosition;
         _instance.Play();

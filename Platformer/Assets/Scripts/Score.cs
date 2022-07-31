@@ -1,25 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class Score : MonoBehaviour
 {
     [SerializeField] private TMP_Text _scoreText;
 
+    public event Action CoinPickuped;
+
     private int _score = 0;
 
     private void Start()
     {
-        GameEvents.Current.OnPickupCoin += AddPoint;
+        CoinPickuped += AddPoint;
 
         ShowPoints();
     }
 
     private void OnDisable()
     {
-        GameEvents.Current.OnPickupCoin -= AddPoint;
+        CoinPickuped -= AddPoint;
     }
 
     private void AddPoint()
@@ -32,5 +32,10 @@ public class Score : MonoBehaviour
     private void ShowPoints()
     {
         _scoreText.text = _score.ToString() + " POINTS";
+    }
+
+    public void PickupCoin()
+    {
+        CoinPickuped?.Invoke();
     }
 }

@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using DG.Tweening;
+using System;
 
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -27,12 +25,15 @@ public class PlayerController : MonoBehaviour
     private float _blinkDuration = 0.25f;
     private float _blinkBackTimeDuration = 0.25f;
     private int _blinkLoopsAmount = 12;
-
+    
     public Interactor Interactor { get; private set; }
+
+    public event Action TookDamageFromEnemy;
+    public event Action DamageDone;
 
     private void Start()
     {
-        GameEvents.Current.OnTakeDamageFromEnemy += BlinkFromDamage;
+        TookDamageFromEnemy += BlinkFromDamage;
 
         Interactor = GetComponent<Interactor>();
         _health = GetComponent<Health>();
@@ -42,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        GameEvents.Current.OnTakeDamageFromEnemy -= BlinkFromDamage;
+        TookDamageFromEnemy -= BlinkFromDamage;
     }
 
     private void Update()
@@ -119,5 +120,15 @@ public class PlayerController : MonoBehaviour
             _sequence.Append(DOTweenModuleSprite.DOColor(_spriteRenderer, Color.clear, _blinkDuration).SetLoops(_blinkLoopsAmount, LoopType.Yoyo));
             _sequence.Append(_spriteRenderer.DOColor(initialColor, _blinkBackTimeDuration));
         }    
+    }
+
+    public void TookDamage()
+    {
+        TookDamageFromEnemy?.Invoke();
+    }
+
+    public void GiveDamage()
+    {
+        DamageDone?.Invoke();
     }
 }

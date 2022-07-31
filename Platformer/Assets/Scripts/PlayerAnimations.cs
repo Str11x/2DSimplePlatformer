@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
+[RequireComponent(typeof(Health))]
 public class PlayerAnimations : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
@@ -10,12 +12,20 @@ public class PlayerAnimations : MonoBehaviour
     private int _jump = Animator.StringToHash("IsJump");
     private int _healthAnimation = Animator.StringToHash("Health");
 
+    private Health _health;
     private float _startMovement = 3;
     private int _stopMovement = 0;
 
     private void Start()
     {
-        GameEvents.Current.OnPlayerDestroy += Death;
+        _health = GetComponent<Health>();
+
+        _health.PlayerKilled += Death;
+    }
+
+    private void OnDisable()
+    {
+        _health.PlayerKilled -= Death;
     }
 
     private void Update()
@@ -26,7 +36,7 @@ public class PlayerAnimations : MonoBehaviour
 
     private void HorizontalMovement()
     {
-        if (Input.GetButton("Horizontal"))
+        if (Input.GetButton("Horizontal") && _health.IsDeath == false)
         {
             _animator.SetFloat(_speed, _startMovement);
         }
@@ -38,7 +48,7 @@ public class PlayerAnimations : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetButton("Jump"))
+        if (Input.GetButton("Jump") && _health.IsDeath == false)
         {
             _animator.SetBool(_jump, true);
         }
@@ -48,7 +58,7 @@ public class PlayerAnimations : MonoBehaviour
         }
     }
 
-    private void Death()
+    public void Death()
     {
         _animator.SetInteger(_healthAnimation, 0);
     }

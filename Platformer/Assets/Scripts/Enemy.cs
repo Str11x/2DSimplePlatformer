@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Collider2D))]
-[RequireComponent(typeof(Transform))]
 public class Enemy : MonoBehaviour, IInteractable
 {   
     [SerializeField] private int _speed;
 
+    private PlayerController _player;
     private Transform _target;
     private Collider2D _collider;
     private SpriteRenderer _spriteRenderer;
@@ -37,7 +36,7 @@ public class Enemy : MonoBehaviour, IInteractable
                 if (point.normal.y < 0)
                 {
                     _collider.enabled = false;
-                    GameEvents.Current.TakeDamageFromPlayer();
+                    _player.GiveDamage();
 
                     DOTweenModuleSprite.DOBlendableColor(_spriteRenderer, Color.clear, _timeToBlinkRenderer).SetLoops(1, LoopType.Yoyo);
 
@@ -49,11 +48,12 @@ public class Enemy : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        GameEvents.Current.TakeDamageFromEnemy();
+        _player.TookDamage();
     }
 
     public void SetPlayerPosition(PlayerController player)
     {
         _target = player.transform;
+        _player = player;
     }
 }
