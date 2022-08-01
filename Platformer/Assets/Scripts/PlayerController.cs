@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     
     public Interactor Interactor { get; private set; }
 
+    public Health Health => _health;
+
     public event Action TookDamageFromEnemy;
     public event Action DamageDone;
 

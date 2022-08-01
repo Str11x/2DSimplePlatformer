@@ -9,6 +9,7 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private Heart _heart;
     [SerializeField] private Transform _heartPoints;
+    [SerializeField] private ParticleSystem _death;
 
     private List<Heart> _rendererHearts = new List<Heart>();
     private WaitForSeconds _unattackableTime = new WaitForSeconds(3);
@@ -17,7 +18,7 @@ public class Health : MonoBehaviour
     private int _health = 3;
     private int _spawnEnvironmentLayer = 6;
     private int _PlayerLayer = 7;
-    private int _UnAttackableLayer = 10;
+    private int _unAttackableLayer = 10;
     private int _timeToLevelRestart = 3;
     private int _numberOfSceneRestart = 0;
     private bool _isUnattackable = true;
@@ -60,6 +61,7 @@ public class Health : MonoBehaviour
             gameObject.layer = _spawnEnvironmentLayer;
 
             PlayerKilled?.Invoke();
+            PlayDeathEffect();
 
             Destroy(_rendererHearts[_rendererHearts.Count - 1].gameObject);
 
@@ -76,7 +78,7 @@ public class Health : MonoBehaviour
     {
         while (_isUnattackable)
         {
-            gameObject.layer = _UnAttackableLayer;
+            gameObject.layer = _unAttackableLayer;
 
             yield return _unattackableTime;
 
@@ -84,5 +86,11 @@ public class Health : MonoBehaviour
 
             _isUnattackable = false;
         }
+    }
+
+    private void PlayDeathEffect()
+    {
+        _death.transform.position = _player.transform.position;
+        _death.Play();
     }
 }

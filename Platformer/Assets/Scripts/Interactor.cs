@@ -4,8 +4,14 @@ using UnityEngine;
 
 [RequireComponent(typeof(Collision2D))]
 [RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(Wallet))]
 public class Interactor : MonoBehaviour
 {
+    [SerializeField] private CoinSpawner coinSpawner;
+
+    private float _minDistanceNormalXLeft = -0.5f;
+    private float _minDistanceNormalXRight = 0.5f;
+
     private Wallet _wallet;
     public Transform CurrentTransform { get; private set; }
     public bool IsCauseDamage { get; private set; }
@@ -45,7 +51,7 @@ public class Interactor : MonoBehaviour
     {
         foreach (ContactPoint2D point in collision.contacts)
         {
-            if (point.normal.y < 0 || point.normal.x > 0.5f || point.normal.x < -0.5f)
+            if (point.normal.y < 0 || point.normal.x > _minDistanceNormalXRight || point.normal.x < _minDistanceNormalXLeft)
             {
                 IsCauseDamage = true;
             }
