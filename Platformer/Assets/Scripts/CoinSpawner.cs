@@ -20,17 +20,18 @@ public class CoinSpawner : Spawner
 
         while (isSpawnerEnable)
         {
-            _currentPoint = UnityEngine.Random.Range(0, _points.Length);
-            CurrentPosition = _points[_currentPoint].transform.position;
+            _currentPoint = UnityEngine.Random.Range(0, Points.Length);
+            CurrentPosition = Points[_currentPoint].transform.position;
 
             CreatedCoin?.Invoke();
             SpawnCoin();
 
-            Instantiate(_template, _points[_currentPoint].transform.position, Quaternion.identity);
+            Instantiate(_template, Points[_currentPoint].transform.position, Quaternion.identity);
 
-            yield return _spawnerPauseTime;
+            yield return SpawnerPauseTime;
         }
     }
+
     private void SpawnCoin()
     {
         _instance.transform.position = CurrentPosition;

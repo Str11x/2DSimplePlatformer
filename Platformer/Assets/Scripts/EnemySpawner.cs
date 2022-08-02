@@ -31,8 +31,8 @@ public class EnemySpawner : Spawner
 
         while (isSpawnerEnable)
         {
-            _currentPoint = UnityEngine.Random.Range(0, _points.Length);
-            CurrentPosition = _points[_currentPoint].transform.position;
+            _currentPoint = UnityEngine.Random.Range(0, Points.Length);
+            CurrentPosition = Points[_currentPoint].transform.position;
 
             SpawnEnemyEffects?.Invoke();
             SpawnEffects();
@@ -40,12 +40,12 @@ public class EnemySpawner : Spawner
             yield return _showSpawnerTime;
 
             SpawnEnemy?.Invoke();
-            Spawn();
+            SpawnShine();
 
-            var enemy = Instantiate(_template, _points[_currentPoint].transform.position, Quaternion.identity);
+            var enemy = Instantiate(_template, Points[_currentPoint].transform.position, Quaternion.identity);
             ReportPlayerPosition(enemy);
 
-            yield return _spawnerPauseTime;
+            yield return SpawnerPauseTime;
         }
     }
 
@@ -54,7 +54,7 @@ public class EnemySpawner : Spawner
         enemy.SetPlayerPosition(_player);
     }
 
-        private void SpawnEffects()
+    private void SpawnEffects()
     {
         _instanceExplosion.transform.position = CurrentPosition;
         _instanceExplosion.Play();
@@ -78,7 +78,7 @@ public class EnemySpawner : Spawner
         _electricity.Stop();
     }
 
-    private void Spawn()
+    private void SpawnShine()
     {
         _shine.transform.position = CurrentPosition;
         _shine.Play();

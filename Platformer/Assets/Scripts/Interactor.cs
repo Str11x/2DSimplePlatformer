@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Wallet))]
 public class Interactor : MonoBehaviour
 {
-    [SerializeField] private CoinSpawner coinSpawner;
+    [SerializeField] private CoinSpawner _coinSpawner;
 
     private float _minDistanceNormalXLeft = -0.5f;
     private float _minDistanceNormalXRight = 0.5f;

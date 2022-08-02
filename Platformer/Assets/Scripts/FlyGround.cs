@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -36,7 +34,6 @@ public class FlyGround : MonoBehaviour
             _pathPoints = vectorDirections;
 
             Vector3 initialPosition = _islands[i].transform.position;
-
 
             for (int vectorIndex = 0; vectorIndex < _numberOfMovePoint; vectorIndex++)
             {

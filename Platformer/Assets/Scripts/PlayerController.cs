@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _speed = 10;
     [SerializeField] private float _jumpForce = 15;
-    [SerializeField] private float maximumNearDistance = 0.99f;
+    [SerializeField] private float _maximumNearDistance = 0.99f;
 
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
 
         float distance = Vector2.Distance(transform.position, hit2D.point);  
 
-        if (hit2D == true && distance < maximumNearDistance)
+        if (hit2D == true && distance < _maximumNearDistance)
         {
             _isGrounded = true;
             _readyToNextJump = true;
