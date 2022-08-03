@@ -19,10 +19,10 @@ public class Spawner : MonoBehaviour
             Points[i] = SpawnPoints.GetChild(i);
         }
 
-        StartCoroutine(CreateInRandomPlace());
+        StartCoroutine(SpawnInRandomPlace());
     }
 
-    protected virtual IEnumerator CreateInRandomPlace()
+    protected virtual IEnumerator SpawnInRandomPlace()
     {
          yield return SpawnerPauseTime;
     }

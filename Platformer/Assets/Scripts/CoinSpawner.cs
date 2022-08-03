@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class CoinSpawner : Spawner
 {
-    [SerializeField] private PlayerController _player;
+    [SerializeField] private PlayerMovement _player;
     [SerializeField] private Coin _template;
 
     [SerializeField] private ParticleSystem _instance;
-    [SerializeField] private ParticleSystem _pickUpCoin;
    
     private int _currentPoint;
 
-    public event Action CreatedCoin;
+    public event Action SpawnedCoin;
 
-    protected override IEnumerator CreateInRandomPlace()
+    protected override IEnumerator SpawnInRandomPlace()
     {
         bool isSpawnerEnable = true;
 
@@ -23,7 +22,7 @@ public class CoinSpawner : Spawner
             _currentPoint = UnityEngine.Random.Range(0, Points.Length);
             CurrentPosition = Points[_currentPoint].transform.position;
 
-            CreatedCoin?.Invoke();
+            SpawnedCoin?.Invoke();
             SpawnCoin();
 
             Instantiate(_template, Points[_currentPoint].transform.position, Quaternion.identity);
@@ -36,11 +35,5 @@ public class CoinSpawner : Spawner
     {
         _instance.transform.position = CurrentPosition;
         _instance.Play();
-    }
-
-    public void PickUpCoinEffect()
-    {
-        _pickUpCoin.transform.position = _player.Interactor.CurrentTransform.position;
-        _pickUpCoin.Play();
     }
 }

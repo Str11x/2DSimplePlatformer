@@ -3351,7 +3351,6 @@ MonoBehaviour:
   _player: {fileID: 1068471918}
   _template: {fileID: 6555230291046517895, guid: b5455ca36310c364aabe8cc0885279a6, type: 3}
   _instance: {fileID: 2055357669}
-  _pickUpCoin: {fileID: 1247535608}
 --- !u!95 &1368916148 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 4065525263730159446, guid: 755a5af8fdf201f46a8909816db9c196, type: 3}
@@ -4578,7 +4577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreCounter: {fileID: 350866970}
-  _coinSpawner: {fileID: 1337249408}
+  _pickUpCoin: {fileID: 1247535608}
 --- !u!1001 &1475575705693514692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4823,6 +4822,10 @@ PrefabInstance:
       propertyPath: _enemy
       value: 
       objectReference: {fileID: 6955038312914722231, guid: 67227b9d7737fdb49a4b79b80a129e6b, type: 3}
+    - target: {fileID: 4065525263730159465, guid: 755a5af8fdf201f46a8909816db9c196, type: 3}
+      propertyPath: _pickUpCoin
+      value: 
+      objectReference: {fileID: 1247535608}
     - target: {fileID: 4065525263730159470, guid: 755a5af8fdf201f46a8909816db9c196, type: 3}
       propertyPath: PlayerDestroyed.m_PersistentCalls.m_Calls.Array.size
       value: 1

@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour, IInteractable
 {   
     [SerializeField] private int _speed;
 
-    private PlayerController _player;
+    private PlayerMovement _player;
     private Transform _target;
     private Collider2D _collider;
     private SpriteRenderer _spriteRenderer;
@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour, IInteractable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.TryGetComponent<PlayerController>(out PlayerController player))
+        if (collision.collider.TryGetComponent<PlayerMovement>(out PlayerMovement player))
         {
             foreach (ContactPoint2D point in collision.contacts)
             {
@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour, IInteractable
         _player.TookDamage();
     }
 
-    public void SetPlayerPosition(PlayerController player)
+    public void SetTargetToPursue(PlayerMovement player)
     {
         _target = player.transform;
         _player = player;

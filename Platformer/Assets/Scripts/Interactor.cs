@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collision2D))]
-[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(Wallet))]
 public class Interactor : MonoBehaviour
 {

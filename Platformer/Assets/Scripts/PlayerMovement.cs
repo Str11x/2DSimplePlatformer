@@ -6,7 +6,7 @@ using System;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Interactor))]
-public class PlayerController : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _speed = 10;
     [SerializeField] private float _jumpForce = 15;
@@ -73,6 +73,16 @@ public class PlayerController : MonoBehaviour
         }     
     }
 
+    public void TookDamage()
+    {
+        TookDamageFromEnemy?.Invoke();
+    }
+
+    public void GiveDamage()
+    {
+        DamageDone?.Invoke();
+    }
+
     private void Move()
     {
         _rigidbody.velocity = new Vector2(_movement * _speed, _rigidbody.velocity.y);
@@ -122,15 +132,5 @@ public class PlayerController : MonoBehaviour
             _sequence.Append(DOTweenModuleSprite.DOColor(_spriteRenderer, Color.clear, _blinkDuration).SetLoops(_blinkLoopsAmount, LoopType.Yoyo));
             _sequence.Append(_spriteRenderer.DOColor(initialColor, _blinkBackTimeDuration));
         }    
-    }
-
-    public void TookDamage()
-    {
-        TookDamageFromEnemy?.Invoke();
-    }
-
-    public void GiveDamage()
-    {
-        DamageDone?.Invoke();
     }
 }

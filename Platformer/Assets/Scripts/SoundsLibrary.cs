@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SoundsLibrary : MonoBehaviour
 {
-    [SerializeField] private PlayerController _player;
+    [SerializeField] private PlayerMovement _player;
     [SerializeField] private Score _scoreCount;
     [SerializeField] private EnemySpawner _spawner;
 
@@ -23,8 +23,8 @@ public class SoundsLibrary : MonoBehaviour
         _player.TookDamageFromEnemy += HitFromEnemy;
         _scoreCount.CoinPickuped += PickupCoin;
         _player.DamageDone += HitFromPlayer;
-        _spawner.SpawnEnemyEffects += CreateSpawn;
-        _spawner.SpawnEnemy += SpawnEnemy;
+        _spawner.SpawnedEnemyEffects += CreateSpawn;
+        _spawner.SpawnedEnemy += SpawnEnemy;
     }
 
     private void OnDisable()
@@ -33,8 +33,8 @@ public class SoundsLibrary : MonoBehaviour
         _player.TookDamageFromEnemy -= HitFromEnemy;
         _scoreCount.CoinPickuped -= PickupCoin;
         _player.DamageDone -= HitFromPlayer;
-        _spawner.SpawnEnemyEffects -= CreateSpawn;
-        _spawner.SpawnEnemy += SpawnEnemy; 
+        _spawner.SpawnedEnemyEffects -= CreateSpawn;
+        _spawner.SpawnedEnemy += SpawnEnemy; 
     }
 
     private void PickupCoin()

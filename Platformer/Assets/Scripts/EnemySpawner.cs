@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySpawner : Spawner
 {
     [SerializeField] private Enemy _template;
-    [SerializeField] private PlayerController _player;
+    [SerializeField] private PlayerMovement _player;
     [SerializeField] private SpawnSign _sign;
     [SerializeField] private SpriteRenderer _signRenderer;
 
@@ -18,14 +18,14 @@ public class EnemySpawner : Spawner
     private WaitForSeconds _showSpawnerTime = new WaitForSeconds(5);
     private int _lifetimeSpawnSign = 5;
 
-    public event Action SpawnEnemyEffects;
-    public event Action SpawnEnemy;
+    public event Action SpawnedEnemyEffects;
+    public event Action SpawnedEnemy;
 
     private void Awake()
     {
         _spawnFlame.transform.SetParent(_sign.transform);
     }
-    protected override IEnumerator CreateInRandomPlace()
+    protected override IEnumerator SpawnInRandomPlace()
     {
         bool isSpawnerEnable = true;
 
@@ -34,12 +34,12 @@ public class EnemySpawner : Spawner
             _currentPoint = UnityEngine.Random.Range(0, Points.Length);
             CurrentPosition = Points[_currentPoint].transform.position;
 
-            SpawnEnemyEffects?.Invoke();
+            SpawnedEnemyEffects?.Invoke();
             SpawnEffects();
 
             yield return _showSpawnerTime;
 
-            SpawnEnemy?.Invoke();
+            SpawnedEnemy?.Invoke();
             SpawnShine();
 
             var enemy = Instantiate(_template, Points[_currentPoint].transform.position, Quaternion.identity);
@@ -51,7 +51,7 @@ public class EnemySpawner : Spawner
 
     private void ReportPlayerPosition(Enemy enemy)
     {
-        enemy.SetPlayerPosition(_player);
+        enemy.SetTargetToPursue(_player);
     }
 
     private void SpawnEffects()

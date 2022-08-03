@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 
-[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(PlayerMovement))]
 public class Health : MonoBehaviour
 {
     [SerializeField] private Heart _heart;
@@ -13,7 +13,7 @@ public class Health : MonoBehaviour
 
     private List<Heart> _rendererHearts = new List<Heart>();
     private WaitForSeconds _unattackableTime = new WaitForSeconds(3);
-    private PlayerController _player;
+    private PlayerMovement _player;
 
     private int _health = 3;
     private int _spawnEnvironmentLayer = 6;
@@ -29,7 +29,7 @@ public class Health : MonoBehaviour
 
     private void Start()
     {
-        _player = GetComponent<PlayerController>();
+        _player = GetComponent<PlayerMovement>();
 
         _player.TookDamageFromEnemy += TakeDamage;
 
